@@ -36,7 +36,7 @@ If using [lazy.nvim](https://github.com/folke/lazy.nvim) and [which-key.nvim](ht
 	keys = {
 		{
 			"<leader>gt",
-			"<cmd>:GotoTest<cr>",
+			"<cmd>GotoTest<cr>",
 		},
 	},
 }
@@ -44,7 +44,7 @@ If using [lazy.nvim](https://github.com/folke/lazy.nvim) and [which-key.nvim](ht
 
 Otherwise you can register a normal keymap that calls this command:
 ```lua
-vim.keymap.set('n', '<leader>gt', '<cmd>:GotoTest<cr>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gt', '<cmd>GotoTest<cr>', { noremap = true, silent = true })
 ```
 
 ## Configuration

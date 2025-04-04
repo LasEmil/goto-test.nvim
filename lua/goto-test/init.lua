@@ -6,7 +6,7 @@ M.opts = {}
 
 function M.asyncFind(patterns)
 	local found_files = {}
-	local patterns_checked = 0
+	local patterns_len = #patterns
 
 	for i, pattern in ipairs(patterns) do
 		local stdin = vim.uv.new_pipe()
@@ -32,8 +32,7 @@ function M.asyncFind(patterns)
 					end
 				end
 			end
-			patterns_checked = patterns_checked + 1
-			local is_last_pattern = patterns_checked == i
+			local is_last_pattern = patterns_len == i
 			if is_last_pattern then
 				vim.uv.close(handle, function()
 					vim.uv.close(stdin)
