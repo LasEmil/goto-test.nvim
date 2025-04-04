@@ -2,7 +2,10 @@
 
 Go to test for your current file.
 
-## Getting Started
+### Requirements
+- [fd](https://github.com/sharkdp/fd)
+- Neovim >= 0.10.0
+
 ### Installation
 Using [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -49,19 +52,20 @@ The plugin has a list of file path patterns that is searches during location of 
 
 If you are using some non standard folder structure you can supply your own path using glob pattern.
 
-You can also use two additional values in the patterns:
+In the pattern you have to use a special value for the filename:
+
 - `{filename}` required - this value will be replaced by current filename.
-- `{pwd}` optional - current file directory - useful if your test files are in the same directory as your source code.
 
 ```lua
 {
     "LasEmil/goto-test.nvim",
     lazy = true,
     opts = {
-        patterns = {
-            "java/**/{filename}__Test.*",
-            "{pwd}/{filename}.__test__.*",
-        },
+	patterns = {
+
+		"{filename}.testsuite.*",
+	},
     },
 }
 ```
+

@@ -4,19 +4,6 @@ M.get_current_file_path = function()
 	return vim.api.nvim_buf_get_name(0)
 end
 
-M.get_current_file_directory = function()
-	local file_path = M.get_current_file_path()
-	local file_directory = vim.fn.fnamemodify(file_path, ":h")
-	return file_directory
-end
-
-M.get_current_file_extension = function()
-	local file_path = M.get_current_file_path()
-	local file_name_with_extension = vim.fn.fnamemodify(file_path, ":t")
-	local file_extension = vim.fn.fnamemodify(file_name_with_extension, ":e")
-	return file_extension
-end
-
 -- Get the current file name without the path and extension
 M.get_current_file_name = function()
 	local file_path = M.get_current_file_path()
@@ -34,29 +21,28 @@ M.replace_in_strings = function(patterns, filename, string_to_replace)
 	return new_patterns
 end
 
-M.find_test_file_path = function(patterns)
-	local found_files = {}
-	for i, pattern in ipairs(patterns) do
-		--check if file exists
-		local file = vim.fn.glob(pattern)
-		if file ~= "" then
-			table.insert(found_files, file)
+function M.format_fd_output(data)
+	local output = {}
+	if data then
+		local lines = vim.split(data, "\n")
+		for _, line in ipairs(lines) do
+			if line ~= "" then
+				table.insert(output, line)
+			end
 		end
 	end
-	if next(found_files) == nil then
-		return nil
-	end
-	return found_files
+
+	return output
 end
 
-M.table_length = function(t)
-	local count = 0
-	for _ in pairs(t) do
-		count = count + 1
+M.format_qf_entries = function(data)
+	local quickfix_entries = {}
+	for _, file in ipairs(data) do
+		table.insert(quickfix_entries, { filename = file })
 	end
-	return count
-end
 
+	return quickfix_entries
+end
 M.P = function(v)
 	print(vim.inspect(v))
 	return v
