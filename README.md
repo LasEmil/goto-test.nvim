@@ -15,7 +15,7 @@ When using lazy there is no need to call setup function.
 }
 ```
 
-Using any other package manager you have to call the setup function:
+When using any other package manager you have to call the setup function:
 
 ```lua
 require("goto-test").setup()
