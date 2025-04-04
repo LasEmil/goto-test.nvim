@@ -43,6 +43,21 @@ M.format_qf_entries = function(data)
 
 	return quickfix_entries
 end
+
+-- join patterns table into string like '{init.test.*,init_test.*}'
+M.fd_glob_patterns = function(patterns)
+	local fd_glob = ""
+	for i, pattern in ipairs(patterns) do
+		if i == 1 then
+			fd_glob = "{" .. pattern
+		else
+			fd_glob = fd_glob .. "," .. pattern
+		end
+	end
+	fd_glob = fd_glob .. "}"
+	return fd_glob
+end
+
 M.P = function(v)
 	print(vim.inspect(v))
 	return v
