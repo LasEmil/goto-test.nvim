@@ -69,3 +69,8 @@ In the pattern you have to use a special value for the filename:
 }
 ```
 
+## Todo
+- First try to use LSP references - and pick a file from found references - and then as fallback use fd
+  The LSP way could work better for languages where you import the code to test files, like typescript. Manual fd way would have to work when it's handled by magic, like in Ruby On Rails.
+- Then do optimizations, if LSP references list is too slow, then fallback to fd
+- Add tests obviously.
