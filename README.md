@@ -1,6 +1,12 @@
 # goto-test.nvim
 
-Go to test for your current file.
+Go to test for your current file or outer function.
+
+### Features
+- Search for a test file for an outer function under a cursor.
+- Search using [fd](https://github.com/sharkdp/fd) if LSP search fails.
+- Opens files in QuickFix list if there is more than one result.
+- Configurable search patterns.
 
 ### Requirements
 - [fd](https://github.com/sharkdp/fd)
@@ -31,14 +37,14 @@ If using [lazy.nvim](https://github.com/folke/lazy.nvim) and [which-key.nvim](ht
 
 ```lua
 {
-    "LasEmil/goto-test.nvim",
     lazy = true,
-	keys = {
-		{
-			"<leader>gt",
-			"<cmd>GotoTest<cr>",
-		},
-	},
+    "LasEmil/goto-test.nvim",
+    keys = {
+        {
+                "<leader>gt",
+                "<cmd>GotoTest<cr>",
+        },
+    },
 }
 ```
 
@@ -48,29 +54,33 @@ vim.keymap.set('n', '<leader>gt', '<cmd>GotoTest<cr>', { noremap = true, silent 
 ```
 
 ## Configuration
-The plugin has a list of file path patterns that is searches during location of the test file.
+The plugin has a list of patterns for matching test files:
+```lua
+local test_patterns = {
+    "**/{filename}.test.*",
+    "**/{filename}_test.*",
+    "**/test_{filename}.*",
+    "**/{filename}.spec.*"
+}
+```
 
-If you are using some non standard folder structure you can supply your own path using glob pattern.
+If you are using some non standard test filename pattern you can supply your own path using glob pattern.
 
 In the pattern you have to use a special value for the filename:
 
-- `{filename}` required - this value will be replaced by current filename.
+- `{filename}` required - this value will be replaced by current filename in case LSP search fails and we are using fd fallback.
 
 ```lua
 {
     "LasEmil/goto-test.nvim",
     lazy = true,
     opts = {
-	patterns = {
-
-		"{filename}.testsuite.*",
-	},
-    },
+        patterns = {
+            "**/{filename}.testsuite.*",
+        },
+    }
 }
 ```
 
 ## Todo
-- First try to use LSP references - and pick a file from found references - and then as fallback use fd
-  The LSP way could work better for languages where you import the code to test files, like typescript. Manual fd way would have to work when it's handled by magic, like in Ruby On Rails.
-- Then do optimizations, if LSP references list is too slow, then fallback to fd
-- Add tests obviously.
+- Add tests, that's weird that a plugin for finding test files doesn't have any tests
